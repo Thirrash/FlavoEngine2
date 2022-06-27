@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.23)
+
+# Add common variables
+set(FLAVO_ENGINE_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/engine/source")
+set(FLAVO_WOC_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/woc/source")
+set(FLAVO_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+
+# Set project settings
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Setup project
+project(WallOfCar)
+add_executable(WallOfCar "${FLAVO_WOC_SRC_DIR}/main.cpp")
+target_include_directories(WallOfCar PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+
+# Add libraries
+add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/core")
+
+# Link libraries
+target_link_libraries(WallOfCar PRIVATE Core)
