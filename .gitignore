@@ -1,0 +1,14 @@
+# Git-specific files
+.git/**
+
+# Visual Studio files
+.vs/**
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+engine/bin/**
+woc/bin/**
