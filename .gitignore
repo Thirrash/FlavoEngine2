@@ -10,5 +10,4 @@
 *.sln.docstates
 
 # Build results
-engine/bin/**
-woc/bin/**
+bin/**
