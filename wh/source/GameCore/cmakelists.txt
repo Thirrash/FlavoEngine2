@@ -1,0 +1,9 @@
+project(GameCore)
+file(GLOB_RECURSE SOURCES_GameCore CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.ixx"
+)
+add_library(GameCore SHARED "${SOURCES_GameCore}")
+target_include_directories(GameCore PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(GameCore PRIVATE "${FLAVO_ROOT_DIR}")
+set_target_properties(GameCore PROPERTIES FOLDER Game)

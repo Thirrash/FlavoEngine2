@@ -1,12 +1,12 @@
 #include <cstdio>
 
-#include "engine/source/core/std_compat.h"
+import Warthog.GameCore;
 
 int main()
 {
     printf("Wall Of Car starting...");
 
-    test();
+    Warthog::GameCore::lol();
 
     return 0;
 }

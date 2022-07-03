@@ -1,0 +1,9 @@
+project(FTL)
+file(GLOB_RECURSE SOURCES_FTL CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.ixx"
+)
+add_library(FTL SHARED "${SOURCES_FTL}")
+target_include_directories(FTL PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(FTL PRIVATE "${FLAVO_ROOT_DIR}")
+set_target_properties(FTL PROPERTIES FOLDER FlavoEngine)

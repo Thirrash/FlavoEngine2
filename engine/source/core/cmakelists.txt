@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.23)
-
-# Set the project name
 project(Core)
-add_library(Core std_compat.h std_compat.cpp)
+file(GLOB_RECURSE SOURCES_CORE CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.ixx"
+)
+add_library(Core SHARED "${SOURCES_CORE}")
 target_include_directories(Core PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(Core PRIVATE "${FLAVO_ROOT_DIR}")
+set_target_properties(Core PROPERTIES FOLDER FlavoEngine)

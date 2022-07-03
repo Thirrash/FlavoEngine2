@@ -1,1 +1,1 @@
-start bin\WallOfCar.sln
+start bin\cmake\Warthog.sln
