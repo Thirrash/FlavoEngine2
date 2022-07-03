@@ -9,6 +9,9 @@ set(FLAVO_WH_SRC_DIR "${FLAVO_ROOT_DIR}/wh/source")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
+# 'set', not 'add_compile_options' as there is a % sign which is always transformed into %% after project generation
+set(CMAKE_CXX_FLAGS "/ifcOutput${CMAKE_BINARY_DIR}/../modules/$(Configuration)/%(Filename).ifc")
+add_compile_options("/ifcSearchDir${CMAKE_BINARY_DIR}/../modules/$(Configuration)/")
 
 # Set project settings
 set(CMAKE_CXX_STANDARD 20)
