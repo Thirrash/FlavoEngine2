@@ -10,8 +10,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
 # 'set', not 'add_compile_options' as there is a % sign which is always transformed into %% after project generation
-set(CMAKE_CXX_FLAGS "/ifcOutput${CMAKE_BINARY_DIR}/../modules/$(Configuration)/%(Filename).ifc")
-add_compile_options("/ifcSearchDir${CMAKE_BINARY_DIR}/../modules/$(Configuration)/")
+set(CMAKE_CXX_FLAGS "/ifcOutput${CMAKE_BINARY_DIR}/../modules/$(Configuration)/%(Filename).ifc") # path to put compiled modules
+add_compile_options("/ifcSearchDir${CMAKE_BINARY_DIR}/../modules/$(Configuration)/") # path to look for modules
+add_compile_options("/experimental:module") # required to enable STD modules
+add_compile_options("/EHsc") # required by STD modules, exception handling, stack unwinding
 
 # Set project settings
 set(CMAKE_CXX_STANDARD 20)
@@ -24,6 +26,7 @@ project(Warthog)
 add_executable(Warthog "${FLAVO_WH_SRC_DIR}/main.cpp")
 target_include_directories(Warthog PRIVATE "${FLAVO_ROOT_DIR}")
 target_link_libraries(Warthog PRIVATE GameCore)
+target_link_libraries(Warthog PRIVATE Logger)
 
 # Add engine projects
 add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/Core")
