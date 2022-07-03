@@ -11,3 +11,6 @@
 
 # Build results
 bin/**
+
+# Exclude cmake
+!engine/tools/cmake/**
