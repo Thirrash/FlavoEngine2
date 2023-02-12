@@ -1,38 +1,35 @@
 cmake_minimum_required(VERSION 3.23)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Add common variables
 set(FLAVO_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 set(FLAVO_ENGINE_SRC_DIR "${FLAVO_ROOT_DIR}/engine/source")
+set(FLAVO_GAME_SRC_DIR "${FLAVO_ROOT_DIR}/game/source")
 set(FLAVO_WH_SRC_DIR "${FLAVO_ROOT_DIR}/wh/source")
 
 # Set output paths
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
-# 'set', not 'add_compile_options' as there is a % sign which is always transformed into %% after project generation
-set(CMAKE_CXX_FLAGS "/ifcOutput${CMAKE_BINARY_DIR}/../modules/$(Configuration)/%(Filename).ifc") # path to put compiled modules
-add_compile_options("/ifcSearchDir${CMAKE_BINARY_DIR}/../modules/$(Configuration)/") # path to look for modules
-add_compile_options("/experimental:module") # required to enable STD modules
-add_compile_options("/EHsc") # required by STD modules, exception handling, stack unwinding
 
 # Set project settings
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Enable filters in Visual Studio
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Add engine projects
+add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/core")
+add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/logger")
+
+# Add game projects
+add_subdirectory("${FLAVO_GAME_SRC_DIR}/game_core")
+
 # Add main application project
 project(Warthog)
 add_executable(Warthog "${FLAVO_WH_SRC_DIR}/main.cpp")
-target_include_directories(Warthog PRIVATE "${FLAVO_ROOT_DIR}")
+target_include_directories(Warthog PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
+target_include_directories(Warthog PRIVATE "${FLAVO_GAME_SRC_DIR}")
+target_include_directories(Warthog PRIVATE "${FLAVO_WH_SRC_DIR}")
 target_link_libraries(Warthog PRIVATE GameCore)
 target_link_libraries(Warthog PRIVATE Logger)
-
-# Add engine projects
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/Core")
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/ECS")
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/FTL")
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/Logger")
-
-# Add game projects
-add_subdirectory("${FLAVO_WH_SRC_DIR}/GameCore")

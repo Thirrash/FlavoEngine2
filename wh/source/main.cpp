@@ -1,9 +1,10 @@
-import FlavoEngine.Logger;
-import Warthog.GameCore;
+#include "game_core/game_core.h"
+#include "logger/logger.h"
 
 int main()
 {
-    FlavoEngine::Logger::info("Warthog project application starting...");
+    flavo::logger::info("Warthog project application starting...");
+    flavo::game::test();
 
     return 0;
 }

@@ -1,9 +1,0 @@
-project(ECS)
-file(GLOB_RECURSE SOURCES_ECS CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.ixx"
-)
-add_library(ECS SHARED "${SOURCES_ECS}")
-target_include_directories(ECS PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
-target_include_directories(ECS PRIVATE "${FLAVO_ROOT_DIR}")
-set_target_properties(ECS PROPERTIES FOLDER FlavoEngine)
