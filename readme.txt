@@ -41,3 +41,53 @@
 *Used libraries*
 - Assimp - asset importer
 - ImGUI - immediate mode UI system. Should be used in Editor, maybe even in game itself
+
+-----------------------------------------------------------------------------------------------
+
+Code style proposal:
+
+namespace flavo::gmd
+{
+    constexpr uint32_t SOME_HOLY_GLOBAL_CONSTANT = 12u;
+    static uint32_t SOME_UNHOLY_GLOBAL_STATIC = 10u;
+    
+    float SomeFreeFunction(float x)
+    {
+        static constexpr float SOME_CONSTANT_IN_FUNCTION = 2.0f;
+        
+        const float some_local_variable = SOME_CONSTANT_IN_FUNCTION + x;
+        return some_local_variable;
+    }
+
+    struct UberJohnStruct
+    {
+        static float SomePublicStaticMethod();
+        float SomePublicMethod() const; // Note: structs should only have very simple methods!
+    
+        float some_public_field;
+    };
+    
+    class GigaPaulClass
+    {
+    public:
+        static uint32_t SomeStaticPublicMethod();
+        uint32_t SomePublicMethod();
+        
+        static uint32_t PUBLIC_STATIC_FIELD;
+        uint32_t public_field; // Note: classes should NOT have public fields exposed like that (unless constant)
+        
+    protected:
+        static uint32_t SomeStaticProtectedMethod();
+        uint32_t SomeProtectedMethod();
+        
+        static uint32_t s_ProtectedStaticField;
+        uint32_t m_ProtectedField;
+        
+    private:
+        static uint32_t SomeStaticPrivateMethod();
+        uint32_t SomePrivateMethod();
+        
+        static uint32_t s_PrivateStaticField;
+        uint32_t m_PrivateField;
+    };
+}
