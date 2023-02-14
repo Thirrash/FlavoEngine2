@@ -4,4 +4,5 @@
 namespace flavo::ftl
 {
 	using std::forward;
+	using std::swap;
 }
