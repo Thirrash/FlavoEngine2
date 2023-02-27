@@ -3,6 +3,7 @@
 #include "ftl/bitset.h"
 #include "ftl/concepts.h"
 #include "ftl/limits.h"
+#include "ftl/memory.h"
 #include "ftl/unordered_map.h"
 #include "ftl/vector.h"
 
@@ -18,19 +19,30 @@ namespace flavo::ecs
     using ComponentId = uint32_t;
     constexpr ComponentId INVALID_COMPONENT_ID = ftl::numeric_limits<ComponentId>::max();
 
-    // Base struct for all components, non-virtual
-    // Derived classes are required to be trivially copy-able and movable!
-    struct Component
+    struct TestComponentDefault
     {
+        uint64_t u;
+        float f;
+    };
 
+    struct TestComponentCustom
+    {
+        ftl::unique_ptr<uint64_t> p;
+
+        TestComponentCustom() = default;
+        TestComponentCustom(const TestComponentCustom& src);
+        TestComponentCustom(TestComponentCustom&& src);
+        ~TestComponentCustom() = default;
+        TestComponentCustom& operator=(TestComponentCustom src);
+        friend void swap(TestComponentCustom& lhs, TestComponentCustom& rhs);
     };
 
     // Actual data of multiple components, type-erased and stored in contiguous array
     struct ComponentPool
     {
         uint8_t* data = nullptr;
-        uint32_t element_size = 0;
         uint32_t element_count = 0;
+        ComponentId id = INVALID_COMPONENT_ID;
 
         ComponentPool() = default;
         ComponentPool(const ComponentPool& src);
@@ -69,23 +81,38 @@ namespace flavo::ecs
     };
 
     template<typename T>
-    concept ComponentDerived = ftl::derived_from<T, Component>;
+    concept ComponentType = ftl::copyable<T> && ftl::movable<T>;
 
-    template<ComponentDerived T>
-    ComponentId GetComponentId() { return INVALID_COMPONENT_ID; }
+    static_assert(ComponentType<TestComponentDefault>);
+    static_assert(ComponentType<TestComponentCustom>);
 
+    /// Functions to specialize per each component type
+    template<ComponentType T>
+    ComponentId GetComponentId() { abort(); return INVALID_COMPONENT_ID; }
+
+    template<> ComponentId GetComponentId<TestComponentDefault>() { return 0; }
+    template<> ComponentId GetComponentId<TestComponentCustom>() { return 1; }
+
+    uint32_t GetComponentSizeOf(ComponentId id);
+
+    using CopyCtorFn = void(const uint8_t*, uint8_t*);
+    void GetComponentCopyCtor(ComponentId id, CopyCtorFn*& fn);
+    using MoveCtorFn = void(uint8_t*, uint8_t*);
+    void GetComponentMoveCtor(ComponentId id, MoveCtorFn*& fn);
+
+    /// Central point of access to all ECS-related structures and functions
     class CORE_API Manager
     {
     public:
         static Manager& Get();
 
-        template<ComponentDerived T>
+        template<ComponentType T>
         bool HasComponent(EntityId entity) const { return HasComponent(entity, GetComponentId<T>()); }
 
-        template<ComponentDerived T>
+        template<ComponentType T>
         const T* GetComponent(EntityId entity) const { return reinterpret_cast<const T*>(GetComponent(entity, GetComponentId<T>())); }
 
-        template<ComponentDerived T>
+        template<ComponentType T>
         T* GetComponent(EntityId entity) { return reinterpret_cast<T*>(GetComponent(entity, GetComponentId<T>())); }
 
     private:

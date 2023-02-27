@@ -1,20 +1,50 @@
 #include "ecs/ecs.h"
 
+#include "ftl/array.h"
 #include "ftl/utility.h"
 
 namespace flavo::ecs
 {
+    TestComponentCustom::TestComponentCustom(const TestComponentCustom& src)
+        : p(src.p ? ftl::make_unique<uint64_t>(*src.p) : nullptr)
+    {
+    }
+
+    TestComponentCustom::TestComponentCustom(TestComponentCustom&& src)
+        : TestComponentCustom()
+    {
+        swap(*this, src);
+    }
+
+    TestComponentCustom& TestComponentCustom::operator=(TestComponentCustom src)
+    {
+        swap(*this, src);
+        return *this;
+    }
+
+    void swap(TestComponentCustom& lhs, TestComponentCustom& rhs)
+    {
+        ftl::swap(lhs.p, rhs.p);
+    }
+
     ComponentPool::ComponentPool(const ComponentPool& src)
         : data(nullptr)
         , element_count(src.element_count)
-        , element_size(src.element_size)
+        , id(src.id)
     {
         if (src.element_count > 0)
         {
-            // Assumption: trivially copy-able
-            const uint32_t num_bytes = src.element_size * src.element_count;
+            const uint32_t element_size = GetComponentSizeOf(src.id);
+            const uint32_t num_bytes = element_size * src.element_count;
+            CopyCtorFn* copy_ctor = nullptr;
+            GetComponentCopyCtor(src.id, copy_ctor);
+
             data = new uint8_t[num_bytes];
-            memcpy(data, src.data, num_bytes);
+            for (uint32_t i = 0; i < src.element_count; ++i)
+            {
+                const uint64_t ptr_offset = element_size * i;
+                copy_ctor(src.data + ptr_offset, data + ptr_offset);
+            }
         }
     }
 
@@ -39,7 +69,55 @@ namespace flavo::ecs
     {
         ftl::swap(first.data, second.data);
         ftl::swap(first.element_count, second.element_count);
-        ftl::swap(first.element_size, second.element_size);
+        ftl::swap(first.id, second.id);
+    }
+
+    uint32_t GetComponentSizeOf(ComponentId id)
+    {
+        // #TODO Generate via header tool
+        static constexpr uint32_t DATA_COUNT = 2;
+        static constexpr ftl::array<uint32_t, DATA_COUNT> DATA =
+        {
+            sizeof(TestComponentDefault),
+            sizeof(TestComponentCustom),
+        };
+
+        if (id >= DATA_COUNT)
+            abort();
+
+        return DATA[id];
+    }
+
+    void GetComponentCopyCtor(ComponentId id, CopyCtorFn*& fn)
+    {
+        // #TODO Generate via header tool
+        static constexpr uint32_t DATA_COUNT = 2;
+        static constexpr ftl::array<CopyCtorFn*, DATA_COUNT> DATA =
+        {
+            [](const uint8_t* src, uint8_t* dst) constexpr { new (dst) TestComponentDefault(*reinterpret_cast<const TestComponentDefault*>(src)); },
+            [](const uint8_t* src, uint8_t* dst) constexpr { new (dst) TestComponentCustom(*reinterpret_cast<const TestComponentCustom*>(src)); },
+        };
+
+        if (id >= DATA_COUNT)
+            abort();
+
+        fn = DATA[id];
+    }
+
+    void GetComponentMoveCtor(ComponentId id, MoveCtorFn*& fn)
+    {
+        // #TODO Generate via header tool
+        static constexpr uint32_t DATA_COUNT = 2;
+        static constexpr ftl::array<MoveCtorFn*, DATA_COUNT> DATA =
+        {
+            [](uint8_t* src, uint8_t* dst) constexpr { new (dst) TestComponentDefault(ftl::move(*reinterpret_cast<TestComponentDefault*>(src))); },
+            [](uint8_t* src, uint8_t* dst) constexpr { new (dst) TestComponentCustom(ftl::move(*reinterpret_cast<TestComponentCustom*>(src))); },
+        };
+
+        if (id >= DATA_COUNT)
+            abort();
+
+        fn = DATA[id];
     }
 
     Manager& Manager::Get()
