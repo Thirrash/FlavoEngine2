@@ -2,6 +2,7 @@ project(Core)
 file(GLOB_RECURSE SOURCES_CORE CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.inl"
 )
 add_library(Core SHARED "${SOURCES_CORE}")
 target_include_directories(Core PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
