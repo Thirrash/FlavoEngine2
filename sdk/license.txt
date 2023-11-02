@@ -1,0 +1,11 @@
+1) cmake
+- Project/solution build tools
+- https://cmake.org/
+- version 3.23.2
+- BSD-3 license
+
+2) FLECS
+- Entity-Component-System library, static/dynamic linkage (static is used)
+- https://github.com/SanderMertens/flecs
+- version 3.2.8
+- MIT license
