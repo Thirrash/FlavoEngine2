@@ -1,0 +1,10 @@
+project(flecs)
+file(GLOB_RECURSE SOURCES_flecs CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+)
+add_library(flecs STATIC "${SOURCES_flecs}")
+target_include_directories(flecs PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+
+set_target_properties(flecs PROPERTIES FOLDER SDK)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_flecs})

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifdef LOGGER_API_EXPORT
-#define LOGGER_API __declspec(dllexport)
+#ifdef ECS_API_EXPORT
+#define ECS_API __declspec(dllexport)
 #else
-#define LOGGER_API __declspec(dllimport)
+#define ECS_API __declspec(dllimport)
 #endif

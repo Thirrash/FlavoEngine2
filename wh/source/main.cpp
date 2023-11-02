@@ -1,6 +1,7 @@
+#include "core/ftl/soa.h"
+#include "ecs/ecs.h"
 #include "game_core/game_core.h"
 #include "logger/logger.h"
-#include "core/ftl/soa.h"
 
 int main()
 {
@@ -20,6 +21,10 @@ int main()
 
     flavo::logger::info("Total sizeof: {}", t.allocated_size());
     flavo::logger::info("Distance count: {}", dist_span.size());
+
+    // ------
+
+    flavo::ecs::Level level;
 
     return 0;
 }

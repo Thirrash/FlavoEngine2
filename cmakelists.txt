@@ -3,6 +3,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Add common variables
 set(FLAVO_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(FLAVO_SDK_DIR "${FLAVO_ROOT_DIR}/sdk")
 set(FLAVO_ENGINE_SRC_DIR "${FLAVO_ROOT_DIR}/engine/source")
 set(FLAVO_GAME_SRC_DIR "${FLAVO_ROOT_DIR}/game/source")
 set(FLAVO_WH_SRC_DIR "${FLAVO_ROOT_DIR}/wh/source")
@@ -18,6 +19,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Enable filters in Visual Studio
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Add sdk projects
+add_subdirectory("${FLAVO_SDK_DIR}/flecs")
+
 # Add engine projects
 add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/core")
 add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/ecs")
@@ -32,5 +36,7 @@ add_executable(Warthog "${FLAVO_WH_SRC_DIR}/main.cpp")
 target_include_directories(Warthog PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
 target_include_directories(Warthog PRIVATE "${FLAVO_GAME_SRC_DIR}")
 target_include_directories(Warthog PRIVATE "${FLAVO_WH_SRC_DIR}")
+target_link_libraries(Warthog PRIVATE Core)
+target_link_libraries(Warthog PRIVATE ECS)
 target_link_libraries(Warthog PRIVATE GameCore)
 target_link_libraries(Warthog PRIVATE Logger)

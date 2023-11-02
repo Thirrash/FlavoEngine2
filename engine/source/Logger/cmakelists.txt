@@ -5,7 +5,7 @@ file(GLOB_RECURSE SOURCES_Logger CONFIGURE_DEPENDS
 )
 add_library(Logger SHARED "${SOURCES_Logger}")
 target_include_directories(Logger PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
-target_include_directories(Logger PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
+target_include_directories(Logger PUBLIC "${FLAVO_ENGINE_SRC_DIR}")
 target_compile_definitions(Logger PRIVATE LOGGER_API_EXPORT)
 target_link_libraries(Logger PUBLIC Core)
 

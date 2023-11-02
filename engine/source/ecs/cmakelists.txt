@@ -5,9 +5,12 @@ file(GLOB_RECURSE SOURCES_ECS CONFIGURE_DEPENDS
 )
 add_library(ECS SHARED "${SOURCES_ECS}")
 target_include_directories(ECS PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
-target_include_directories(ECS PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
+target_include_directories(ECS PUBLIC "${FLAVO_ENGINE_SRC_DIR}")
+target_include_directories(ECS PUBLIC "${FLAVO_SDK_DIR}")
 target_compile_definitions(ECS PRIVATE ECS_API_EXPORT)
 target_link_libraries(ECS PUBLIC Core)
+target_link_libraries(ECS PUBLIC Logger)
+target_link_libraries(ECS PUBLIC flecs)
 
 set_target_properties(ECS PROPERTIES FOLDER Engine)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_ECS})
