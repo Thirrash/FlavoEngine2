@@ -5,7 +5,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(FLAVO_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 set(FLAVO_SDK_DIR "${FLAVO_ROOT_DIR}/sdk")
 set(FLAVO_ENGINE_SRC_DIR "${FLAVO_ROOT_DIR}/engine/source")
-set(FLAVO_GAME_SRC_DIR "${FLAVO_ROOT_DIR}/game/source")
+set(FLAVO_GAME_SRC_DIR "${FLAVO_ROOT_DIR}/game_engine/source")
 set(FLAVO_WH_SRC_DIR "${FLAVO_ROOT_DIR}/wh/source")
 
 # Set output paths
@@ -26,7 +26,6 @@ add_subdirectory("${FLAVO_SDK_DIR}/thread_pool")
 # Add engine projects
 add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/core")
 add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/ecs")
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/logger")
 
 # Add game projects
 add_subdirectory("${FLAVO_GAME_SRC_DIR}/game_core")
@@ -40,4 +39,3 @@ target_include_directories(Warthog PRIVATE "${FLAVO_WH_SRC_DIR}")
 target_link_libraries(Warthog PRIVATE Core)
 target_link_libraries(Warthog PRIVATE ECS)
 target_link_libraries(Warthog PRIVATE GameCore)
-target_link_libraries(Warthog PRIVATE Logger)

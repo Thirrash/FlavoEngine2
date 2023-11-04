@@ -1,5 +1,5 @@
 #include "game_core.h"
-#include "logger/logger.h"
+#include "core/logger/logger.h"
 
 namespace flavo::game
 {

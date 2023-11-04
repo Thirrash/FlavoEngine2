@@ -1,9 +1,17 @@
-#include "logger/logger.h"
+#include "core/logger/logger.h"
+
 #include "core/core.h"
 #include "core/ftl/chrono.h"
 #include "core/ftl/format.h"
 #include "core/ftl/fstream.h"
 #include "core/ftl/iostream.h"
+#include "core/ftl/thread.h"
+#include "core/parallel/thread_name.h"
+
+#ifdef _MSC_VER
+#include <windows.h>
+#include <debugapi.h>
+#endif
 
 namespace flavo::logger
 {
@@ -29,13 +37,20 @@ namespace flavo::logger
 
 	void LogEngine::LogInternal(ftl::string_view type, ftl::string_view message) const
 	{
-		const ftl::string str = ftl::format("{} [{}] {}\n", GetCurrentDateTime(), type, message);
+		const ftl::thread::id thread_id = ftl::this_thread::get_id();
+		const ftl::string_view thread_name = parallel::ThreadNameManager::Instance().GetName(thread_id);
+		const ftl::string str = ftl::format("{} [{}] [{}] {}\n", GetCurrentDateTime(), thread_name, type, message);
 		ftl::cout << str;
 
 		ftl::ofstream file_handle(m_FilePath, ftl::ios::app);
 		if (file_handle.is_open())
 		{
+			ftl::scoped_lock l(m_Lock);
 			file_handle << str;
 		}
+
+#ifdef _MSC_VER
+		OutputDebugStringA(str.c_str());
+#endif
 	}
 }

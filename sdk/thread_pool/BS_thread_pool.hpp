@@ -561,6 +561,19 @@ public:
         return status;
     }
 
+    std::vector<std::thread::id> get_thread_ids() const
+    {
+        std::vector<std::thread::id> v;
+        v.reserve(thread_count);
+
+        for (concurrency_t i = 0; i < thread_count; ++i)
+        {
+            v.push_back(threads[i].get_id());
+        }
+
+        return v;
+    }
+
 private:
     // ========================
     // Private member functions

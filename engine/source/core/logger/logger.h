@@ -1,13 +1,14 @@
 #pragma once
-#include "logger_api.h"
+#include "core/core_api.h"
 #include "core/ftl/filesystem.h"
 #include "core/ftl/format.h"
+#include "core/ftl/mutex.h"
 #include "core/ftl/string.h"
 #include "core/ftl/utility.h"
 
 namespace flavo::logger
 {
-	class LOGGER_API LogEngine
+	class CORE_API LogEngine
 	{
 	public:
 		static LogEngine& GetInstance();
@@ -31,6 +32,7 @@ namespace flavo::logger
 		void LogInternal(ftl::string_view type, ftl::string_view message) const;
 
 		ftl::filesystem::path m_FilePath;
+		mutable ftl::mutex m_Lock;
 	};
 
 	// Log debug message
