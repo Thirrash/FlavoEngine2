@@ -21,6 +21,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Add sdk projects
 add_subdirectory("${FLAVO_SDK_DIR}/flecs")
+add_subdirectory("${FLAVO_SDK_DIR}/thread_pool")
 
 # Add engine projects
 add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/core")

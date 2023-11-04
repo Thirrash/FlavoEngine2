@@ -5,7 +5,13 @@
 - BSD-3 license
 
 2) FLECS
-- Entity-Component-System library, static/dynamic linkage (static is used)
+- Entity-Component-System library
 - https://github.com/SanderMertens/flecs
 - version 3.2.8
+- MIT license
+
+3) thread-pool
+- Thread pool library
+- https://github.com/bshoshany/thread-pool
+- version 3.5.0
 - MIT license

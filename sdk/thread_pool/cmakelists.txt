@@ -1,0 +1,9 @@
+project(thread_pool)
+file(GLOB_RECURSE SOURCES_thread_pool CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
+)
+add_library(thread_pool STATIC "${SOURCES_thread_pool}")
+set_target_properties(thread_pool PROPERTIES FOLDER SDK)
+set_target_properties(thread_pool PROPERTIES LINKER_LANGUAGE CXX)
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_thread_pool})
