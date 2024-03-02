@@ -7,8 +7,9 @@ file(GLOB_RECURSE SOURCES_CORE CONFIGURE_DEPENDS
 add_library(Core SHARED "${SOURCES_CORE}")
 target_include_directories(Core PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(Core PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
-target_include_directories(Core PRIVATE "${FLAVO_SDK_DIR}")
+target_include_directories(Core PUBLIC "${FLAVO_SDK_DIR}")
 target_compile_definitions(Core PRIVATE CORE_API_EXPORT)
+target_link_libraries(Core PUBLIC result)
 target_link_libraries(Core PRIVATE thread_pool)
 
 set_target_properties(Core PROPERTIES FOLDER Engine)

@@ -1,0 +1,14 @@
+project(RendererCommon)
+file(GLOB_RECURSE SOURCES_RENDERER_COMMON CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.inl"
+)
+add_library(RendererCommon SHARED "${SOURCES_RENDERER_COMMON}")
+target_include_directories(RendererCommon PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(RendererCommon PUBLIC "${FLAVO_ENGINE_SRC_DIR}")
+target_compile_definitions(RendererCommon PRIVATE RENDERER_COMMON_API_EXPORT)
+target_link_libraries(RendererCommon PUBLIC Core)
+
+set_target_properties(RendererCommon PROPERTIES FOLDER Renderer)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_RENDERER_COMMON})

@@ -21,7 +21,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Add sdk projects
+add_subdirectory("${FLAVO_SDK_DIR}/d3dx12")
 add_subdirectory("${FLAVO_SDK_DIR}/flecs")
+add_subdirectory("${FLAVO_SDK_DIR}/result")
 add_subdirectory("${FLAVO_SDK_DIR}/thread_pool")
 
 # Add engine projects
@@ -30,6 +32,7 @@ add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/ecs")
 
 # Add renderer projects
 add_subdirectory("${FLAVO_RENDERER_SRC_DIR}/renderer")
+add_subdirectory("${FLAVO_RENDERER_SRC_DIR}/renderer_common")
 add_subdirectory("${FLAVO_RENDERER_SRC_DIR}/renderer_dx12")
 
 # Add game engine projects

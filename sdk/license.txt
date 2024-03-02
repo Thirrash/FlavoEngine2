@@ -15,3 +15,15 @@
 - https://github.com/bshoshany/thread-pool
 - version 3.5.0
 - MIT license
+
+4) d3dx12
+- Helper structures and functions for DirectX 12
+- https://github.com/microsoft/DirectX-Headers/tree/main
+- version 1.611.0
+- MIT license
+
+5) result
+- Rust-like Result<Value,Error> class implementation
+- https://github.com/tylerreisinger/result
+- version N/A, repository state 03 Feb 2024
+- MIT license

@@ -1,0 +1,10 @@
+project(result)
+file(GLOB_RECURSE SOURCES_RESULT CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+)
+add_library(result STATIC "${SOURCES_RESULT}")
+target_include_directories(result PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+
+set_target_properties(result PROPERTIES FOLDER SDK)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_RESULT})
