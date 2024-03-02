@@ -16,10 +16,11 @@ namespace flavo::renderer
 	public:
 		ftl::result<> Initialize(ERendererType rtype);
 		ftl::result<> Destroy();
-
-		ftl::result<> ProcessFrame();
+		ftl::result<> UpdateRender();
 
 	private:
 		ftl::unique_ptr<IRenderer> m_Renderer;
 	};
+
+	RenderManager g_RenderManager;
 }

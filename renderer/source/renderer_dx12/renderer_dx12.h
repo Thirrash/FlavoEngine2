@@ -8,8 +8,8 @@ namespace flavo::renderer::dx12
 	{
 		ftl::result<> Initialize() override;
 		ftl::result<> Destroy() override;
+		ftl::result<> UpdateRender() override;
 
 		ftl::result<> AddRenderItem(const RenderItem& /*ri*/) override { return ftl::error<>("TODO"); };
-		ftl::result<> ProcessFrame() override { return ftl::error<>("TODO"); };
 	};
 }

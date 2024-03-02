@@ -12,4 +12,9 @@ namespace flavo::renderer::dx12
 	{
 		return ftl::success<>(ftl::void_t());
 	}
+
+	ftl::result<> RendererDX12::UpdateRender()
+	{
+		return ftl::success<>(ftl::void_t());
+	}
 }

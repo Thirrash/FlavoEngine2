@@ -23,8 +23,8 @@ namespace flavo::renderer
 		return m_Renderer->Destroy();
 	}
 
-	ftl::result<> RenderManager::ProcessFrame()
+	ftl::result<> RenderManager::UpdateRender()
 	{
-		return m_Renderer->ProcessFrame();
+		return m_Renderer->UpdateRender();
 	}
 }

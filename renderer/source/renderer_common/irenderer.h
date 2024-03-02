@@ -15,8 +15,8 @@ namespace flavo::renderer
 	public:
 		virtual ftl::result<> Initialize() = 0;
 		virtual ftl::result<> Destroy() = 0;
+		virtual ftl::result<> UpdateRender() = 0;
 
 		virtual ftl::result<> AddRenderItem(const RenderItem& ri) = 0;
-		virtual ftl::result<> ProcessFrame() = 0;
 	};
 }

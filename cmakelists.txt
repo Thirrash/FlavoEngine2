@@ -40,7 +40,7 @@ add_subdirectory("${FLAVO_GAME_SRC_DIR}/game_core")
 
 # Add main application project
 project(Warthog)
-add_executable(Warthog "${FLAVO_WH_SRC_DIR}/main.cpp")
+add_executable(Warthog WIN32 "${FLAVO_WH_SRC_DIR}/main.cpp")
 target_include_directories(Warthog PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
 target_include_directories(Warthog PRIVATE "${FLAVO_RENDERER_SRC_DIR}")
 target_include_directories(Warthog PRIVATE "${FLAVO_GAME_SRC_DIR}")
