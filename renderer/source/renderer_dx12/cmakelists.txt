@@ -1,0 +1,15 @@
+project(RendererDX12)
+file(GLOB_RECURSE SOURCES_RENDERER_DX12 CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.inl"
+)
+add_library(RendererDX12 SHARED "${SOURCES_RENDERER_DX12}")
+target_include_directories(RendererDX12 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(RendererDX12 PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
+target_include_directories(RendererDX12 PRIVATE "${FLAVO_SDK_SRC_DIR}")
+target_compile_definitions(RendererDX12 PRIVATE RENDERER_DX12_API_EXPORT)
+target_link_libraries(RendererDX12 PRIVATE d3dx12)
+
+set_target_properties(RendererDX12 PROPERTIES FOLDER Renderer)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_RENDERER_DX12})

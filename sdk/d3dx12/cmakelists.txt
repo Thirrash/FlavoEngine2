@@ -1,0 +1,10 @@
+project(d3dx12)
+file(GLOB_RECURSE SOURCES_D3DX12 CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+)
+add_library(d3dx12 STATIC "${SOURCES_D3DX12}")
+target_include_directories(d3dx12 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+
+set_target_properties(d3dx12 PROPERTIES FOLDER SDK)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_D3DX12})
