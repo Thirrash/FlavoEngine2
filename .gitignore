@@ -13,4 +13,4 @@
 bin/**
 
 # Exclude cmake
-!engine/tools/cmake/**
+!sdk/cmake/**
