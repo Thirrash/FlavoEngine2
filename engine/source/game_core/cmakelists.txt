@@ -1,0 +1,17 @@
+project(GameCore)
+file(GLOB_RECURSE SOURCES_GAME_CORE CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmakelists.txt"
+)
+add_library(GameCore SHARED "${SOURCES_GAME_CORE}")
+target_include_directories(GameCore PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(GameCore PUBLIC "${FLAVO_KERNEL_SRC_DIR}")
+target_include_directories(GameCore PUBLIC "${FLAVO_RENDERER_SRC_DIR}")
+target_compile_definitions(GameCore PRIVATE GAME_CORE_API_EXPORT)
+target_precompile_headers(GameCore PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/game_core_pch.h")
+target_link_libraries(GameCore PUBLIC Core)
+target_link_libraries(GameCore PUBLIC Renderer)
+
+set_target_properties(GameCore PROPERTIES FOLDER Engine)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_GAME_CORE})

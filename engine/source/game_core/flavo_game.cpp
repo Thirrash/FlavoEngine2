@@ -1,6 +1,7 @@
 #include "game_core_pch.h"
-#include "game_core.h"
+#include "flavo_game.h"
 #include "core/logger/logger.h"
+#include "core/platform/os_windows.h"
 #include "renderer/render_manager.h"
 
 namespace
@@ -30,15 +31,15 @@ namespace flavo::game
 {
 	FlavoGame::FlavoGame(HINSTANCE instance, bool cmd_show)
 	{
-		HWND hwnd;
 		bool fullscreen = false;
 		int width = 640;
 		int height = 480;
 
 		if (fullscreen)
 		{
-			HMONITOR hmon = MonitorFromWindow(hwnd,
-				MONITOR_DEFAULTTONEAREST);
+			// Get primary monitor, it is always the one with 0,0 corner in it
+			const POINT ptZero = { 0, 0 };
+			HMONITOR hmon = MonitorFromPoint(ptZero, MONITOR_DEFAULTTOPRIMARY);
 			MONITORINFO mi = { sizeof(mi) };
 			GetMonitorInfo(hmon, &mi);
 
@@ -67,7 +68,7 @@ namespace flavo::game
 			return;
 		}
 
-		hwnd = CreateWindowExA(NULL,
+		const HWND hwnd = CreateWindowExA(NULL,
 			"FlavoGame",
 			"Flavo Game",
 			WS_OVERLAPPEDWINDOW,

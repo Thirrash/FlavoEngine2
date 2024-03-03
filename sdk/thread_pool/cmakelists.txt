@@ -2,6 +2,7 @@ project(thread_pool)
 file(GLOB_RECURSE SOURCES_thread_pool CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmakelists.txt"
 )
 add_library(thread_pool STATIC "${SOURCES_thread_pool}")
 set_target_properties(thread_pool PROPERTIES FOLDER SDK)

@@ -4,7 +4,7 @@
 #include "core/parallel/task_manager.h"
 #include "core/parallel/thread_name.h"
 #include "ecs/ecs.h"
-#include "game_core/game_core.h"
+#include "game_core/flavo_game.h"
 #include "renderer/render_manager.h"
 
 #ifndef WIN32_LEAN_AND_MEAN

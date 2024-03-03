@@ -4,10 +4,9 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # Add common variables
 set(FLAVO_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 set(FLAVO_SDK_DIR "${FLAVO_ROOT_DIR}/sdk")
-set(FLAVO_ENGINE_SRC_DIR "${FLAVO_ROOT_DIR}/engine/source")
+set(FLAVO_KERNEL_SRC_DIR "${FLAVO_ROOT_DIR}/kernel/source")
 set(FLAVO_RENDERER_SRC_DIR "${FLAVO_ROOT_DIR}/renderer/source")
-set(FLAVO_GAME_SRC_DIR "${FLAVO_ROOT_DIR}/game_engine/source")
-set(FLAVO_WH_SRC_DIR "${FLAVO_ROOT_DIR}/wh/source")
+set(FLAVO_ENGINE_SRC_DIR "${FLAVO_ROOT_DIR}/engine/source")
 
 # Set output paths
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
@@ -26,25 +25,26 @@ add_subdirectory("${FLAVO_SDK_DIR}/flecs")
 add_subdirectory("${FLAVO_SDK_DIR}/result")
 add_subdirectory("${FLAVO_SDK_DIR}/thread_pool")
 
-# Add engine projects
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/core")
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/ecs")
+# Add kernel projects
+add_subdirectory("${FLAVO_KERNEL_SRC_DIR}/core")
+add_subdirectory("${FLAVO_KERNEL_SRC_DIR}/ecs")
 
 # Add renderer projects
 add_subdirectory("${FLAVO_RENDERER_SRC_DIR}/renderer")
 add_subdirectory("${FLAVO_RENDERER_SRC_DIR}/renderer_common")
 add_subdirectory("${FLAVO_RENDERER_SRC_DIR}/renderer_dx12")
 
-# Add game engine projects
-add_subdirectory("${FLAVO_GAME_SRC_DIR}/game_core")
+# Add engine projects
+add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/game_core")
 
-# Add main application project
+# Add game projects
 project(Warthog)
-add_executable(Warthog WIN32 "${FLAVO_WH_SRC_DIR}/main.cpp")
-target_include_directories(Warthog PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
+set(FLAVO_GAME_WH_SRC_DIR "${FLAVO_ROOT_DIR}/wh/source")
+add_executable(Warthog WIN32 "${FLAVO_GAME_WH_SRC_DIR}/main.cpp")
+target_include_directories(Warthog PRIVATE "${FLAVO_KERNEL_SRC_DIR}")
 target_include_directories(Warthog PRIVATE "${FLAVO_RENDERER_SRC_DIR}")
-target_include_directories(Warthog PRIVATE "${FLAVO_GAME_SRC_DIR}")
-target_include_directories(Warthog PRIVATE "${FLAVO_WH_SRC_DIR}")
+target_include_directories(Warthog PRIVATE "${FLAVO_ENGINE_SRC_DIR}")
+target_include_directories(Warthog PRIVATE "${FLAVO_GAME_WH_SRC_DIR}")
 target_link_libraries(Warthog PRIVATE Core)
 target_link_libraries(Warthog PRIVATE Renderer)
 target_link_libraries(Warthog PRIVATE ECS)

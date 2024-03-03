@@ -2,6 +2,7 @@ project(result)
 file(GLOB_RECURSE SOURCES_RESULT CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmakelists.txt"
 )
 add_library(result STATIC "${SOURCES_RESULT}")
 target_include_directories(result PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
