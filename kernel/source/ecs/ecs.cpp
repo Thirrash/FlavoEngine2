@@ -25,7 +25,7 @@ namespace flavo::ecs
     void LevelImpl::TestPrint() const
     {
         flecs::entity root_entity = m_World.entity("Root");
-        flavo::logger::info("Created root entity: {}", root_entity.name().c_str());
+        flavo::logger::Info("Created root entity: {}", root_entity.name().c_str());
         root_entity.destruct();
     }
 

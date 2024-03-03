@@ -5,4 +5,5 @@ namespace flavo::ftl
 {
     using std::max;
     using std::min;
+    using std::replace;
 }

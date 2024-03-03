@@ -10,5 +10,6 @@ namespace flavo::ftl
 	namespace ios
 	{
 		constexpr auto app = std::ios::app;
+		constexpr auto trunc = std::ios::trunc;
 	}
 }

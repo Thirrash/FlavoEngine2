@@ -1,5 +1,6 @@
 #include "game_core_pch.h"
 #include "flavo_game.h"
+#include "core/logger/assert.h"
 #include "core/logger/logger.h"
 #include "core/platform/os_windows.h"
 #include "renderer/render_manager.h"
@@ -93,7 +94,8 @@ namespace flavo::game
 		ShowWindow(hwnd, cmd_show);
 		UpdateWindow(hwnd);
 
-		renderer::g_RenderManager.Initialize(renderer::ERendererType::DX12);
+		const ftl::result<> init_result = renderer::g_RenderManager.Initialize(renderer::ERendererType::DX12);
+		FLAVO_ASSERT(init_result.is_ok(), "Couldn't initialize renderer. {}", init_result.err_unchecked());
 	}
 
 	int FlavoGame::Loop()
@@ -112,8 +114,14 @@ namespace flavo::game
 				DispatchMessage(&msg);
 			}
 			else {
+				// 1. Game
 				UpdateGame();
-				renderer::g_RenderManager.UpdateRender();
+
+				// 2. Renderer
+				const ftl::result<> render_result = renderer::g_RenderManager.UpdateRender();
+				FLAVO_ASSERT(render_result.is_ok(), "Couldn't update renderer. {}", render_result.err_unchecked());
+				
+				// 3. Sync Game and Renderer
 				SyncGameRender();
 			}
 		}
@@ -124,7 +132,7 @@ namespace flavo::game
 	void FlavoGame::UpdateGame()
 	{
 		static int no_frame = 0;
-		flavo::logger::debug("Starting game frame: {}", no_frame);
+		//flavo::logger::Debug("Starting game frame: {}", no_frame);
 		++no_frame;
 	}
 

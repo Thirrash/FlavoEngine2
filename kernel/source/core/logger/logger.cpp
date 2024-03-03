@@ -1,6 +1,7 @@
 #include "core/logger/logger.h"
 
 #include "core/core.h"
+#include "core/ftl/algorithm.h"
 #include "core/ftl/chrono.h"
 #include "core/ftl/format.h"
 #include "core/ftl/fstream.h"
@@ -30,8 +31,13 @@ namespace flavo::logger
 	LogEngine::LogEngine()
 	{
 		const ftl::filesystem::path path_suffix(L"Logs");
-		ftl::filesystem::path log_dir = core::path::GetOutputPath() / path_suffix;
-		const ftl::string filename = ftl::format("log_{}", GetCurrentDateTime());
+		ftl::filesystem::path log_dir = path::GetOutputPath() / path_suffix;
+		ftl::filesystem::create_directories(log_dir);
+
+		ftl::string datetime = GetCurrentDateTime();
+		ftl::replace(datetime.begin(), datetime.end(), ':', '_');
+		ftl::replace(datetime.begin(), datetime.end(), '.', '_');
+		const ftl::string filename = ftl::format("log_{}.txt", datetime);
 		m_FilePath = log_dir / filename;
 	}
 
@@ -42,12 +48,14 @@ namespace flavo::logger
 		const ftl::string str = ftl::format("{} [{}] [{}] {}\n", GetCurrentDateTime(), thread_name, type, message);
 		ftl::cout << str;
 
-		ftl::ofstream file_handle(m_FilePath, ftl::ios::app);
+		ftl::ofstream file_handle;
+		file_handle.open(m_FilePath, ftl::ios::app);
 		if (file_handle.is_open())
 		{
 			ftl::scoped_lock l(m_Lock);
 			file_handle << str;
 		}
+		file_handle.close();
 
 #ifdef _MSC_VER
 		OutputDebugStringA(str.c_str());

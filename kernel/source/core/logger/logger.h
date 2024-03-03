@@ -37,29 +37,36 @@ namespace flavo::logger
 
 	// Log debug message
 	template<typename ...Args>
-	void debug(ftl::string_view format, Args&&... args)
+	void Debug(ftl::string_view format, Args&&... args)
 	{
 		LogEngine::GetInstance().Log("DEBG", format, ftl::forward<Args>(args)...);
 	}
 
 	// Log info message
 	template<typename ...Args>
-	void info(ftl::string_view format, Args&&... args)
+	void Info(ftl::string_view format, Args&&... args)
 	{
 		LogEngine::GetInstance().Log("INFO", format, ftl::forward<Args>(args)...);
 	}
 
 	// Log warning message
 	template<typename ...Args>
-	void warning(ftl::string_view format, Args&&... args)
+	void Warning(ftl::string_view format, Args&&... args)
 	{
 		LogEngine::GetInstance().Log("WARN", format, ftl::forward<Args>(args)...);
 	}
 
 	// Log error message
 	template<typename ...Args>
-	void error(ftl::string_view format, Args&&... args)
+	void Error(ftl::string_view format, Args&&... args)
 	{
 		LogEngine::GetInstance().Log("ERRO", format, ftl::forward<Args>(args)...);
+	}
+
+	// Log fatal message
+	template<typename ...Args>
+	void Fatal(ftl::string_view format, Args&&... args)
+	{
+		LogEngine::GetInstance().Log("FATL", format, ftl::forward<Args>(args)...);
 	}
 }

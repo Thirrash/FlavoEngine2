@@ -1,20 +1,21 @@
 #include "renderer_dx12.h"
+#include "core/logger/assert.h"
 
 namespace flavo::renderer::dx12
 {
 	ftl::result<> RendererDX12::Initialize()
 	{
 
-		return ftl::success<>(ftl::void_t());
+		return ftl::make_success();
 	}
 
 	ftl::result<> RendererDX12::Destroy()
 	{
-		return ftl::success<>(ftl::void_t());
+		return ftl::make_success();
 	}
 
 	ftl::result<> RendererDX12::UpdateRender()
 	{
-		return ftl::success<>(ftl::void_t());
+		return ftl::make_success();
 	}
 }

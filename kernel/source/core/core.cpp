@@ -1,6 +1,6 @@
 #include "core/core.h"
 
-namespace flavo::core::path
+namespace flavo::path
 {
 	ftl::filesystem::path GetBinaryPath()
 	{
@@ -15,7 +15,7 @@ namespace flavo::core::path
 		if (err_code != 0)
 			return ftl::filesystem::path();
 
-		const ftl::filesystem::path out_path = ftl::filesystem::path(appdata_path) / "FlavoTeam";
+		const ftl::filesystem::path out_path = ftl::filesystem::path(appdata_path) / "FlavoEntertainment";
 		ftl::filesystem::create_directories(out_path);
 		return out_path;
 	}
