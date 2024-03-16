@@ -2,6 +2,7 @@
 #include "renderer_api.h"
 #include "renderer_common/irenderer.h"
 #include "core/ftl/memory.h"
+#include "core/platform/os_windows.h"
 
 namespace flavo::renderer
 {
@@ -14,7 +15,7 @@ namespace flavo::renderer
 	class RENDERER_API RenderManager
 	{
 	public:
-		ftl::result<> Initialize(ERendererType rtype);
+		ftl::result<> Initialize(ERendererType rtype, uint32_t window_width, uint32_t window_height, HWND window);
 		ftl::result<> Destroy();
 		ftl::result<> UpdateRender();
 

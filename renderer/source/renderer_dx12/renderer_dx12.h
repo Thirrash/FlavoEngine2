@@ -16,8 +16,9 @@ namespace flavo::renderer::dx12
 	class RENDERER_DX12_API RendererDX12 : public IRenderer
 	{
 	public:
-		ftl::result<> Initialize() override;
+		ftl::result<> Initialize(uint32_t window_width, uint32_t window_height, HWND window) override;
 		ftl::result<> Destroy() override;
+
 		ftl::result<> UpdateRender() override;
 
 		ftl::result<> AddRenderItem(const RenderItem& /*ri*/) override { return ftl::make_error("TODO"); };
@@ -29,7 +30,8 @@ namespace flavo::renderer::dx12
         static constexpr uint32_t NUM_RENDER_THREADS = 1;
 
         ftl::result<> InitializeDevice();
-        ftl::result<> InitializeSwapChain();
+        ftl::result<> InitializeCommandQueue();
+        ftl::result<> InitializeSwapChain(uint32_t window_width, uint32_t window_height, HWND window);
 
         // Direct3D device
         ID3D12Device* m_Device = nullptr;
