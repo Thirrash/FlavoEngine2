@@ -1,5 +1,6 @@
 #include "assert.h"
 #include "logger.h"
+#include "core/ftl/source_location.h"
 #include "core/platform/os_windows.h"
 
 namespace
@@ -26,12 +27,12 @@ namespace
     }
 }
 
-namespace flavo::logger::impl
+namespace flavo::logger::internal
 {
-	void HandleAssert(ftl::string_view msg, ftl::string_view file, int32_t line)
+	void HandleAssert(ftl::string_view msg, ftl::source_location src_location)
 	{
         // Always log as Fatal
-        const ftl::string full_msg = ftl::format("Assertion failed!\nFile: {} ({})\nMessage: {}", file, line, msg);
+        const ftl::string full_msg = ftl::format("File:\n{}({})\n\nFunction:\n{}\n\nMessage:\n{}", src_location.file_name(), src_location.line(), src_location.function_name(), msg);
         logger::Fatal("{}", full_msg);
 
         // Install a window hook, so we can intercept the message-box creation, and customize it

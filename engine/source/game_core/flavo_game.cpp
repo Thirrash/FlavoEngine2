@@ -95,7 +95,7 @@ namespace flavo::game
 		UpdateWindow(hwnd);
 
 		const ftl::result<> init_result = renderer::g_RenderManager.Initialize(renderer::ERendererType::DX12);
-		FLAVO_ASSERT(init_result.is_ok(), "Couldn't initialize renderer. {}", init_result.err_unchecked());
+		FLAVO_ASSERT(init_result.is_ok(), "Couldn't initialize renderer. {}", init_result.err_unchecked().join_messages());
 	}
 
 	int FlavoGame::Loop()
@@ -119,7 +119,7 @@ namespace flavo::game
 
 				// 2. Renderer
 				const ftl::result<> render_result = renderer::g_RenderManager.UpdateRender();
-				FLAVO_ASSERT(render_result.is_ok(), "Couldn't update renderer. {}", render_result.err_unchecked());
+				FLAVO_ASSERT(render_result.is_ok(), "Couldn't update renderer. {}", render_result.err_unchecked().join_messages());
 				
 				// 3. Sync Game and Renderer
 				SyncGameRender();
