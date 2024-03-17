@@ -12,11 +12,10 @@ namespace
 		switch (msg)
 		{
 		case WM_KEYDOWN:
-			if (wParam == VK_ESCAPE) {
-				if (MessageBoxA(0, "Are you sure you want to exit?",
-					"Really?", MB_YESNO | MB_ICONQUESTION) == IDYES)
-					DestroyWindow(hwnd);
-			}
+			//if (wParam == VK_ESCAPE)
+			//{
+
+			//}
 			return 0;
 
 		case WM_DESTROY:
@@ -63,11 +62,8 @@ namespace flavo::game
 		wc.lpszClassName = "FlavoGame";
 		wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
-		if (!RegisterClassEx(&wc))
-		{
-			MessageBoxA(NULL, "Error registering window class", "Error", MB_OK | MB_ICONERROR);
-			return;
-		}
+		const bool register_window_result = RegisterClassExA(&wc);
+		FLAVO_ASSERT(register_window_result, "Error registering window class");
 
 		const HWND hwnd = CreateWindowExA(NULL,
 			"FlavoGame",
@@ -80,11 +76,7 @@ namespace flavo::game
 			instance,
 			NULL);
 
-		if (!hwnd)
-		{
-			MessageBoxA(NULL, "Error creating window", "Error", MB_OK | MB_ICONERROR);
-			return;
-		}
+		FLAVO_ASSERT(hwnd, "Error creating window");
 
 		if (fullscreen)
 		{
