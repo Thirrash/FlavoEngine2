@@ -14,7 +14,7 @@ namespace flavo::renderer
 	class RENDERER_COMMON_API IRenderer
 	{
 	public:
-		virtual ftl::result<> Initialize(uint32_t window_width, uint32_t window_height, HWND window) = 0;
+		virtual ftl::result<> Initialize(HWND window) = 0;
 		virtual ftl::result<> Destroy() = 0;
 		virtual ftl::result<> UpdateRender() = 0;
 

@@ -94,7 +94,7 @@ namespace flavo::game
 		ShowWindow(hwnd, cmd_show);
 		UpdateWindow(hwnd);
 
-		const ftl::result<> init_result = renderer::g_RenderManager.Initialize(renderer::ERendererType::DX12, width, height, hwnd);
+		const ftl::result<> init_result = renderer::g_RenderManager.Initialize(renderer::ERendererType::DX12, hwnd);
 		FLAVO_ASSERT(init_result.is_ok(), "Couldn't initialize renderer. {}", init_result.err_unchecked().join_messages());
 	}
 
