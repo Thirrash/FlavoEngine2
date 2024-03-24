@@ -78,7 +78,8 @@ namespace flavo::renderer::dx12::internal
                 hardware_adapters.push_back(adapter);
             }
 
-            logger::Info("Found adapter: {}", ftl::utf16_to_utf8(desc.Description));
+
+            logger::Retail("Found adapter: {} [{:#x}]. Dedicated video mem: {}. Dedicated system mem: {}. Shared mem: {}", ftl::utf16_to_utf8(desc.Description), reinterpret_cast<uintptr_t>(adapter.Get()), desc.DedicatedVideoMemory, desc.DedicatedSystemMemory, desc.SharedSystemMemory);
         }
 
         bool found_adapter = false;
@@ -92,14 +93,20 @@ namespace flavo::renderer::dx12::internal
         for (ComPtr<IDXGIAdapter1> adap : hardware_adapters)
         {
             if (try_adapter(adap, out_device))
+            {
+                logger::Retail("Device created from the hardware adapter: {:#x}", reinterpret_cast<uintptr_t>(adap.Get()));
                 return ftl::make_success();
+            }
         }
 
         // Try software as a fallback
         for (ComPtr<IDXGIAdapter1> adap : software_adapters)
         {
             if (try_adapter(adap, out_device))
+            {
+                logger::Retail("Device created from the software adapter: {:#x}", reinterpret_cast<uintptr_t>(adap.Get()));
                 return ftl::make_success();
+            }
         }
 
         return ftl::make_error("Couldn't find any compatible adapter");

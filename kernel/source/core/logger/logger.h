@@ -63,6 +63,13 @@ namespace flavo::logger
 		LogEngine::GetInstance().Log("ERRO", format, ftl::forward<Args>(args)...);
 	}
 
+	// Log message which is present even in release builds
+	template<typename ...Args>
+	void Retail(ftl::string_view format, Args&&... args)
+	{
+		LogEngine::GetInstance().Log("RETL", format, ftl::forward<Args>(args)...);
+	}
+
 	// Log fatal message
 	template<typename ...Args>
 	void Fatal(ftl::string_view format, Args&&... args)
