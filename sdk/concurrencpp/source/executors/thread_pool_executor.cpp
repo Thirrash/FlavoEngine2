@@ -177,7 +177,7 @@ thread_pool_worker::thread_pool_worker(thread_pool_executor& parent_pool,
                                        const std::function<void(std::string_view thread_name)>& thread_terminated_callback) :
     m_atomic_abort(false),
     m_parent_pool(parent_pool), m_index(index), m_pool_size(pool_size), m_max_idle_time(max_idle_time),
-    m_worker_name(details::make_executor_worker_name(parent_pool.name)), m_semaphore(0), m_idle(true), m_abort(false),
+    m_worker_name(details::make_executor_worker_name(parent_pool.name, index)), m_semaphore(0), m_idle(true), m_abort(false),
     m_task_found_or_abort(false), m_thread_started_callback(thread_started_callback),
     m_thread_terminated_callback(thread_terminated_callback) {
     m_idle_worker_list.reserve(pool_size);
@@ -379,7 +379,6 @@ void thread_pool_worker::work_loop() {
     }
 }
 
-static std::atomic_uint64_t THREAD_POOL_WORKER_IDX = 0;
 void thread_pool_worker::ensure_worker_active(bool first_enqueuer, std::unique_lock<std::mutex>& lock) {
     assert(lock.owns_lock());
 
@@ -394,9 +393,8 @@ void thread_pool_worker::ensure_worker_active(bool first_enqueuer, std::unique_l
     }
 
     auto stale_worker = std::move(m_thread);
-    auto thread_name = std::format("{}{}", m_worker_name, ++THREAD_POOL_WORKER_IDX);
     m_thread = thread(
-        thread_name,
+        m_worker_name,
         [this] {
             work_loop();
         },

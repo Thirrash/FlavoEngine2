@@ -17,9 +17,10 @@ thread_executor::~thread_executor() noexcept {
 void thread_executor::enqueue_impl(std::unique_lock<std::mutex>& lock, concurrencpp::task& task) {
     assert(lock.owns_lock());
 
+    const size_t index = m_workers.size();
     auto& new_thread = m_workers.emplace_front();
     new_thread = details::thread(
-        details::make_executor_worker_name(name),
+        details::make_executor_worker_name(name, index),
         [this, self_it = m_workers.begin(), task = std::move(task)]() mutable {
             task();
             retire_worker(self_it);

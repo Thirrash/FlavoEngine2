@@ -14,13 +14,20 @@
 
 #include <windows.h>
 
+void ThreadStartedCallback(std::string_view thread_name)
+{
+    flavo::parallel::ThreadNameManager::Instance().RegisterThread(flavo::ftl::this_thread::get_id(), thread_name);
+}
+
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, LPSTR cmdline, int show_cmd)
 {
     flavo::parallel::ThreadNameManager::Instance().RegisterThread(flavo::ftl::this_thread::get_id(), "Main Thread");
 
     flavo::logger::Info("Warthog project application starting...");
 
-    flavo::task::Runtime task_runtime;
+    flavo::task::RuntimeOptions options;
+    options.thread_started_callback = ThreadStartedCallback;
+    flavo::task::Runtime task_runtime(options);
     flavo::task::SetRuntime(task_runtime);
 
 

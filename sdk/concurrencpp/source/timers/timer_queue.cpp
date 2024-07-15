@@ -251,6 +251,7 @@ void timer_queue::shutdown() {
     m_worker.join();
 }
 
+static std::atomic_uint64_t TIMER_QUEUE_COUNTER = 0;
 concurrencpp::details::thread timer_queue::ensure_worker_thread(std::unique_lock<std::mutex>& lock) {
     assert(lock.owns_lock());
     if (!m_idle) {
@@ -260,7 +261,7 @@ concurrencpp::details::thread timer_queue::ensure_worker_thread(std::unique_lock
     auto old_worker = std::move(m_worker);
 
     m_worker = details::thread(
-        details::make_executor_worker_name(details::consts::k_timer_queue_name),
+        details::make_executor_worker_name(details::consts::k_timer_queue_name, TIMER_QUEUE_COUNTER),
         [this] {
             work_loop();
         },

@@ -14,9 +14,10 @@ worker_thread_executor::worker_thread_executor(const std::function<void(std::str
     m_private_atomic_abort(false), m_semaphore(0), m_atomic_abort(false), m_abort(false),
     m_thread_started_callback(thread_started_callback), m_thread_terminated_callback(thread_terminated_callback) {}
 
+static std::atomic_uint64_t WORKER_THREAD_COUNTER = 0;
 void concurrencpp::worker_thread_executor::make_os_worker_thread() {
     m_thread = details::thread(
-        details::make_executor_worker_name(name),
+        details::make_executor_worker_name(name, WORKER_THREAD_COUNTER),
         [this] {
             work_loop();
         },

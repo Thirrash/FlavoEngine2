@@ -2,6 +2,7 @@
 #include "renderer_dx12/renderer_dx12.h"
 #include "core/ftl/format.h"
 #include "core/ftl/utility.h"
+#include "core/logger/logger.h"
 
 namespace flavo::renderer
 {
@@ -26,6 +27,7 @@ namespace flavo::renderer
 
 	task::Future<ftl::result<>> RenderManager::UpdateRender()
 	{
+		logger::Debug("UpdateRender");
 		co_return m_Renderer->UpdateRender();
 	}
 }

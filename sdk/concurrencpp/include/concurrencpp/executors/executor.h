@@ -11,7 +11,7 @@
 
 namespace concurrencpp::details {
     [[noreturn]] CRCPP_API void throw_runtime_shutdown_exception(std::string_view executor_name);
-    CRCPP_API std::string make_executor_worker_name(std::string_view executor_name);
+    CRCPP_API std::string make_executor_worker_name(std::string_view executor_name, size_t index);
 }  // namespace concurrencpp::details
 
 namespace concurrencpp {
