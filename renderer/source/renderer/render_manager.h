@@ -16,7 +16,7 @@ namespace flavo::renderer
 	class RENDERER_API RenderManager
 	{
 	public:
-		ftl::result<> Initialize(ERendererType rtype);
+		ftl::result<> Initialize(ERendererType rtype, HWND window);
 		ftl::result<> Destroy();
 		task::Future<ftl::result<>> UpdateRender();
 

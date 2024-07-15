@@ -4,7 +4,7 @@
 #include "core/parallel/task_manager.h"
 #include "core/parallel/thread_name.h"
 #include "ecs/ecs.h"
-#include "game_core/game_core.h"
+#include "game_core/flavo_game.h"
 #include "renderer/render_manager.h"
 #include "task/task.h"
 
@@ -18,7 +18,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, LPSTR cmdline, i
 {
     flavo::parallel::ThreadNameManager::Instance().RegisterThread(flavo::ftl::this_thread::get_id(), "Main Thread");
 
-    flavo::logger::info("Warthog project application starting...");
+    flavo::logger::Info("Warthog project application starting...");
 
     flavo::task::Runtime task_runtime;
     flavo::task::SetRuntime(task_runtime);

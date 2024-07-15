@@ -1,6 +1,8 @@
 #include "game_core_pch.h"
-#include "game_core.h"
+#include "flavo_game.h"
+#include "core/logger/assert.h"
 #include "core/logger/logger.h"
+#include "core/platform/os_windows.h"
 #include "renderer/render_manager.h"
 
 namespace
@@ -10,11 +12,10 @@ namespace
 		switch (msg)
 		{
 		case WM_KEYDOWN:
-			if (wParam == VK_ESCAPE) {
-				if (MessageBoxA(0, "Are you sure you want to exit?",
-					"Really?", MB_YESNO | MB_ICONQUESTION) == IDYES)
-					DestroyWindow(hwnd);
-			}
+			//if (wParam == VK_ESCAPE)
+			//{
+
+			//}
 			return 0;
 
 		case WM_DESTROY:
@@ -30,15 +31,15 @@ namespace flavo::game
 {
 	FlavoGame::FlavoGame(HINSTANCE instance, bool cmd_show)
 	{
-		HWND hwnd;
 		bool fullscreen = false;
 		int width = 640;
 		int height = 480;
 
 		if (fullscreen)
 		{
-			HMONITOR hmon = MonitorFromWindow(hwnd,
-				MONITOR_DEFAULTTONEAREST);
+			// Get primary monitor, it is always the one with 0,0 corner in it
+			const POINT ptZero = { 0, 0 };
+			HMONITOR hmon = MonitorFromPoint(ptZero, MONITOR_DEFAULTTOPRIMARY);
 			MONITORINFO mi = { sizeof(mi) };
 			GetMonitorInfo(hmon, &mi);
 
@@ -61,13 +62,10 @@ namespace flavo::game
 		wc.lpszClassName = "FlavoGame";
 		wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
-		if (!RegisterClassEx(&wc))
-		{
-			MessageBoxA(NULL, "Error registering window class", "Error", MB_OK | MB_ICONERROR);
-			return;
-		}
+		const bool register_window_result = RegisterClassExA(&wc);
+		FLAVO_ASSERT(register_window_result, "Error registering window class");
 
-		hwnd = CreateWindowExA(NULL,
+		const HWND hwnd = CreateWindowExA(NULL,
 			"FlavoGame",
 			"Flavo Game",
 			WS_OVERLAPPEDWINDOW,
@@ -78,11 +76,7 @@ namespace flavo::game
 			instance,
 			NULL);
 
-		if (!hwnd)
-		{
-			MessageBoxA(NULL, "Error creating window", "Error", MB_OK | MB_ICONERROR);
-			return;
-		}
+		FLAVO_ASSERT(hwnd, "Error creating window");
 
 		if (fullscreen)
 		{
@@ -92,7 +86,8 @@ namespace flavo::game
 		ShowWindow(hwnd, cmd_show);
 		UpdateWindow(hwnd);
 
-		renderer::g_RenderManager.Initialize(renderer::ERendererType::DX12);
+		const ftl::result<> init_result = renderer::g_RenderManager.Initialize(renderer::ERendererType::DX12, hwnd);
+		FLAVO_ASSERT(init_result.is_ok(), "Couldn't initialize renderer. {}", init_result.err_unchecked().join_messages());
 	}
 
 	flavo::task::Future<int> FlavoGame::Loop()
@@ -133,7 +128,7 @@ namespace flavo::game
 	flavo::task::Future<void> FlavoGame::UpdateGame()
 	{
 		static int no_frame = 0;
-		flavo::logger::debug("Starting game frame: {}", no_frame);
+		//flavo::logger::Debug("Starting game frame: {}", no_frame);
 		++no_frame;
 		co_return;
 	}

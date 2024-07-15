@@ -18,8 +18,8 @@
 
 4) d3dx12
 - Helper structures and functions for DirectX 12
-- https://github.com/microsoft/DirectX-Headers/tree/main
-- version 1.611.0
+- https://github.com/microsoft/DirectX-Headers/releases/tag/v1.4.9
+- version 1.4.9
 - MIT license
 
 5) result

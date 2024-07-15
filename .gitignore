@@ -14,3 +14,4 @@ bin/**
 
 # Exclude cmake
 !sdk/cmake/**
+sdk/cmake/share/cmake-3.23/Templates/Windows/Thumbs.db

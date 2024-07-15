@@ -1,6 +1,7 @@
 #pragma once
 #include "renderer_common_api.h"
 #include "core/ftl/result.h"
+#include "core/platform/os_windows.h"
 
 namespace flavo::renderer
 {
@@ -13,7 +14,7 @@ namespace flavo::renderer
 	class RENDERER_COMMON_API IRenderer
 	{
 	public:
-		virtual ftl::result<> Initialize() = 0;
+		virtual ftl::result<> Initialize(HWND window) = 0;
 		virtual ftl::result<> Destroy() = 0;
 		virtual ftl::result<> UpdateRender() = 0;
 

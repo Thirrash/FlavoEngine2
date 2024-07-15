@@ -5,7 +5,7 @@
 
 namespace flavo::renderer
 {
-	ftl::result<> RenderManager::Initialize(ERendererType rtype)
+	ftl::result<> RenderManager::Initialize(ERendererType rtype, HWND window)
 	{
 		switch (rtype)
 		{
@@ -13,9 +13,10 @@ namespace flavo::renderer
 			m_Renderer = ftl::make_unique<dx12::RendererDX12>();
 			break;
 		default:
-			return ftl::error<>(ftl::format("Not supported renderer type: {}", ftl::to_underlying(rtype)));
+			return ftl::make_error(ftl::format("Not supported renderer type: {}", ftl::to_underlying(rtype)));
 		}
-		return ftl::success<>(ftl::void_t());
+
+		return m_Renderer->Initialize(window);
 	}
 
 	ftl::result<> RenderManager::Destroy()

@@ -141,6 +141,9 @@ public:
         if constexpr(!std::is_same<T, unit_t>::value) {
             new(&m_data) DecayT(std::move(val).value());
         }
+        else {
+            memset(&m_data, 0, sizeof(m_data));
+        }
         m_tag = ResultKind::Ok;
     }
     constexpr ResultStorage(Err<E> val) {
