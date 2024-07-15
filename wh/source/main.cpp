@@ -6,6 +6,7 @@
 #include "ecs/ecs.h"
 #include "game_core/game_core.h"
 #include "renderer/render_manager.h"
+#include "task/task.h"
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -13,26 +14,16 @@
 
 #include <windows.h>
 
-struct TaskData
-{
-    uint32_t input;
-    uint32_t output;
-};
-
-void ThreadTask(flavo::parallel::TaskParams params)
-{
-    TaskData* user_data = static_cast<TaskData*>(params.user_data);
-    flavo::logger::info("Task in progress. Input: {}", user_data->input);
-    flavo::ftl::this_thread::sleep_for(flavo::ftl::chrono::seconds() * 3);
-    user_data->output = user_data->input + 100;
-}
-
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, LPSTR cmdline, int show_cmd)
 {
     flavo::parallel::ThreadNameManager::Instance().RegisterThread(flavo::ftl::this_thread::get_id(), "Main Thread");
 
     flavo::logger::info("Warthog project application starting...");
 
+    flavo::task::Runtime task_runtime;
+    flavo::task::SetRuntime(task_runtime);
+
+
     flavo::game::FlavoGame game_instance(instance, show_cmd);
-    return game_instance.Loop();
+    return game_instance.Loop().get();
 }

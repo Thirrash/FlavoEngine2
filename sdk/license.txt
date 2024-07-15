@@ -27,3 +27,9 @@
 - https://github.com/tylerreisinger/result
 - version N/A, repository state 03 Feb 2024
 - MIT license
+
+6) concurrencpp
+- C++20 coroutine task system, cooperative multithreading
+- https://github.com/David-Haim/concurrencpp/
+- version 0.1.7
+- MIT license

@@ -95,7 +95,7 @@ namespace flavo::game
 		renderer::g_RenderManager.Initialize(renderer::ERendererType::DX12);
 	}
 
-	int FlavoGame::Loop()
+	flavo::task::Future<int> FlavoGame::Loop()
 	{
 		MSG msg;
 		ZeroMemory(&msg, sizeof(MSG));
@@ -111,20 +111,31 @@ namespace flavo::game
 				DispatchMessage(&msg);
 			}
 			else {
-				UpdateGame();
-				renderer::g_RenderManager.UpdateRender();
+				// 1. Game
+				auto update_game_promise = flavo::task::GetThreadPoolExecutor().submit(UpdateGame);
+
+				// 2. Renderer
+				auto update_render_promise = flavo::task::GetThreadPoolExecutor().submit([]() { return renderer::g_RenderManager.UpdateRender(); });
+				
+				// 3. Sync Game and Renderer
+				co_await update_game_promise;
+				auto update_render_future = co_await update_render_promise;
+
+				FLAVO_ASSERT(update_render_future.get().is_ok(), "Couldn't update renderer. {}", update_render_future.get().err_unchecked().join_messages());
+
 				SyncGameRender();
 			}
 		}
 
-		return 0;
+		co_return 0;
 	}
 
-	void FlavoGame::UpdateGame()
+	flavo::task::Future<void> FlavoGame::UpdateGame()
 	{
 		static int no_frame = 0;
 		flavo::logger::debug("Starting game frame: {}", no_frame);
 		++no_frame;
+		co_return;
 	}
 
 	void FlavoGame::SyncGameRender()

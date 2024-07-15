@@ -1,0 +1,16 @@
+project(Task)
+file(GLOB_RECURSE SOURCES_TASK CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmakelists.txt"
+)
+add_library(Task SHARED "${SOURCES_TASK}")
+target_include_directories(Task PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(Task PUBLIC "${FLAVO_KERNEL_SRC_DIR}")
+target_include_directories(Task PUBLIC "${FLAVO_SDK_DIR}/concurrencpp/include")
+target_compile_definitions(Task PRIVATE TASK_API_EXPORT)
+target_link_libraries(Task PUBLIC Core)
+target_link_libraries(Task PUBLIC concurrencpp)
+
+set_target_properties(Task PROPERTIES FOLDER Kernel)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES_TASK})

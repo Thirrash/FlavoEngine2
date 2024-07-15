@@ -1,5 +1,6 @@
 #pragma once
 #include "game_core_api.h"
+#include "task/task.h"
 
 struct HINSTANCE__;
 
@@ -10,10 +11,10 @@ namespace flavo::game
 	public:
 		FlavoGame(HINSTANCE__* instance, bool show_cmd);
 
-		int Loop();
+		flavo::task::Future<int> Loop();
 
 	private:
-		void UpdateGame();
+		static flavo::task::Future<void> UpdateGame();
 		void SyncGameRender();
 	};
 }
