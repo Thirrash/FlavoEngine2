@@ -27,16 +27,10 @@ add_subdirectory("${FLAVO_SDK_DIR}/flecs")
 add_subdirectory("${FLAVO_SDK_DIR}/result")
 add_subdirectory("${FLAVO_SDK_DIR}/thread_pool")
 
-<<<<<<< Updated upstream
-# Add engine projects
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/core")
-add_subdirectory("${FLAVO_ENGINE_SRC_DIR}/ecs")
-=======
 # Add kernel projects
 add_subdirectory("${FLAVO_KERNEL_SRC_DIR}/core")
 add_subdirectory("${FLAVO_KERNEL_SRC_DIR}/ecs")
 add_subdirectory("${FLAVO_KERNEL_SRC_DIR}/task")
->>>>>>> Stashed changes
 
 # Add renderer projects
 add_subdirectory("${FLAVO_RENDERER_SRC_DIR}/renderer")
