@@ -15,8 +15,8 @@ namespace concurrencpp {
             return do_post<concrete_executor_type>(std::forward<callable_type>(callable), std::forward<argument_types>(arguments)...);
         }
 
-        template<class callable_type, class... argument_types>
-        auto submit(callable_type&& callable, argument_types&&... arguments) {
+        template<class callable_type, class... argument_types, class return_type = std::invoke_result_t<callable_type>>
+        concurrencpp::result<return_type> submit(callable_type&& callable, argument_types&&... arguments) {
             return do_submit<concrete_executor_type>(std::forward<callable_type>(callable),
                                                      std::forward<argument_types>(arguments)...);
         }

@@ -90,7 +90,7 @@ namespace flavo::game
 		FLAVO_ASSERT(init_result.is_ok(), "Couldn't initialize renderer. {}", init_result.err_unchecked().join_messages());
 	}
 
-	flavo::task::Future<int> FlavoGame::Loop()
+	task::Future<int> FlavoGame::Loop()
 	{
 		MSG msg;
 		ZeroMemory(&msg, sizeof(MSG));
@@ -105,20 +105,24 @@ namespace flavo::game
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
-			else {
+			else 
+			{
 				// 1. Game
-				task::Future<void> update_game_future = flavo::task::GetThreadPoolExecutor().submit(UpdateGame).get();
+				auto update_game_future = flavo::task::GetThreadPoolExecutor().submit(UpdateGame);
 
 				logger::Debug("Update game scheduled");
 
 				// 2. Renderer
-				task::Future<ftl::result<>> update_render_future = flavo::task::GetThreadPoolExecutor().submit([]() { return renderer::g_RenderManager.UpdateRender(); }).get();
+				auto update_render_future = flavo::task::GetThreadPoolExecutor().submit([]()
+				{
+					return renderer::g_RenderManager.UpdateRender();
+				});
 
 				logger::Debug("Update render scheduled");
 				
 				// 3. Sync Game and Renderer
-				co_await update_game_future;
-				auto update_render_result = co_await update_render_future;
+				co_await co_await update_game_future;
+				auto update_render_result = co_await co_await update_render_future;
 
 				FLAVO_ASSERT(update_render_result.is_ok(), "Couldn't update renderer. {}", update_render_result.err_unchecked().join_messages());
 
@@ -129,7 +133,7 @@ namespace flavo::game
 		co_return 0;
 	}
 
-	flavo::task::Future<void> FlavoGame::UpdateGame()
+	task::Future<void> FlavoGame::UpdateGame()
 	{
 		static int no_frame = 0;
 		logger::Debug("Starting game frame: {}", no_frame);

@@ -8,6 +8,7 @@ namespace flavo::task
 	using Runtime = concurrencpp::runtime;
 	using RuntimeOptions = concurrencpp::runtime_options;
 	template<class T> using Future = concurrencpp::result<T>;
+	template<class T> using LazyFuture = concurrencpp::lazy_result<T>;
 	using BackgroundExecutor = concurrencpp::thread_pool_executor;
 	using ThreadPoolExecutor = concurrencpp::thread_pool_executor;
 

@@ -11,10 +11,10 @@ namespace flavo::game
 	public:
 		FlavoGame(HINSTANCE__* instance, bool show_cmd);
 
-		flavo::task::Future<int> Loop();
+		task::Future<int> Loop();
 
 	private:
-		static flavo::task::Future<void> UpdateGame();
+		static task::Future<void> UpdateGame();
 		void SyncGameRender();
 	};
 }
