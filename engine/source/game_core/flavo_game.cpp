@@ -3,6 +3,7 @@
 #include "core/logger/assert.h"
 #include "core/logger/logger.h"
 #include "core/platform/os_windows.h"
+#include "core/profiler.h"
 #include "renderer/render_manager.h"
 
 namespace
@@ -31,6 +32,8 @@ namespace flavo::game
 {
 	FlavoGame::FlavoGame(HINSTANCE instance, bool cmd_show)
 	{
+		FLAVO_PROFILE_EVENT(__FUNCTION__);
+
 		bool fullscreen = false;
 		int width = 640;
 		int height = 480;
@@ -92,6 +95,8 @@ namespace flavo::game
 
 	parallel::Future<int> FlavoGame::Loop()
 	{
+		FLAVO_PROFILE_EVENT(__FUNCTION__);
+
 		MSG msg;
 		ZeroMemory(&msg, sizeof(MSG));
 
@@ -107,27 +112,27 @@ namespace flavo::game
 			}
 			else 
 			{
+				FLAVO_PROFILE_FRAME("Frame");
+
 				// 1. Game
 				auto update_game_future = flavo::parallel::GetThreadPoolExecutor().submit([this]()
 				{
 					return UpdateGame();
 				});
-				logger::Debug("Update game scheduled");
 
 				// 2. Renderer
 				auto update_render_future = flavo::parallel::GetThreadPoolExecutor().submit([]()
 				{
 					return renderer::g_RenderManager.UpdateRender();
 				});
-				logger::Debug("Update render scheduled");
-				
+
 				// 3. Sync Game and Renderer
 				co_await co_await update_game_future;
 				auto update_render_result = co_await co_await update_render_future;
 
 				FLAVO_ASSERT(update_render_result.is_ok(), "Couldn't update renderer. {}", update_render_result.err_unchecked().join_messages());
 
-				SyncGameRender();
+				co_await SyncGameRender();
 			}
 		}
 
@@ -136,14 +141,18 @@ namespace flavo::game
 
 	parallel::Future<void> FlavoGame::UpdateGame()
 	{
+		FLAVO_PROFILE_EVENT(__FUNCTION__);
+
 		static int no_frame = 0;
-		logger::Debug("Starting game frame: {}", no_frame);
 		++no_frame;
+
 		co_return;
 	}
 
-	parallel::Future<void> FlavoGame::SyncGameRender()
+	parallel::LazyFuture<void> FlavoGame::SyncGameRender()
 	{
+		FLAVO_PROFILE_EVENT(__FUNCTION__);
+
 		co_return;
 	}
 }

@@ -15,6 +15,6 @@ namespace flavo::game
 
 	private:
 		parallel::Future<void> UpdateGame();
-		parallel::Future<void> SyncGameRender();
+		parallel::LazyFuture<void> SyncGameRender();
 	};
 }

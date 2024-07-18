@@ -23,6 +23,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_subdirectory("${FLAVO_SDK_DIR}/concurrencpp")
 add_subdirectory("${FLAVO_SDK_DIR}/d3dx12")
 add_subdirectory("${FLAVO_SDK_DIR}/flecs")
+add_subdirectory("${FLAVO_SDK_DIR}/optick")
 add_subdirectory("${FLAVO_SDK_DIR}/result")
 
 # Add kernel projects

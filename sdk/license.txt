@@ -10,7 +10,11 @@
 - version 3.2.8
 - MIT license
 
-3) 
+3) optick
+- Profiler
+- https://github.com/bombomby/optick
+- version 1.4.0
+- MIT license
 
 4) d3dx12
 - Helper structures and functions for DirectX 12

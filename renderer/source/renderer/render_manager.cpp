@@ -3,6 +3,7 @@
 #include "core/ftl/format.h"
 #include "core/ftl/utility.h"
 #include "core/logger/logger.h"
+#include "core/profiler.h"
 
 namespace flavo::renderer
 {
@@ -27,7 +28,8 @@ namespace flavo::renderer
 
 	parallel::Future<ftl::result<>> RenderManager::UpdateRender()
 	{
-		logger::Debug("UpdateRender");
+		FLAVO_PROFILE_EVENT(__FUNCTION__);
+
 		co_return m_Renderer->UpdateRender();
 	}
 }
