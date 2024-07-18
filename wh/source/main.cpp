@@ -1,12 +1,11 @@
 #include "core/ftl/chrono.h"
 #include "core/ftl/soa.h"
 #include "core/logger/logger.h"
-#include "core/parallel/task_manager.h"
+#include "core/parallel/task.h"
 #include "core/parallel/thread_name.h"
 #include "ecs/ecs.h"
 #include "game_core/flavo_game.h"
 #include "renderer/render_manager.h"
-#include "task/task.h"
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -25,10 +24,10 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, LPSTR cmdline, i
 
     flavo::logger::Info("Warthog project application starting...");
 
-    flavo::task::RuntimeOptions options;
+    flavo::parallel::RuntimeOptions options;
     options.thread_started_callback = ThreadStartedCallback;
-    flavo::task::Runtime task_runtime(options);
-    flavo::task::SetRuntime(task_runtime);
+    flavo::parallel::Runtime task_runtime(options);
+    flavo::parallel::SetRuntime(task_runtime);
 
 
     flavo::game::FlavoGame game_instance(instance, show_cmd);

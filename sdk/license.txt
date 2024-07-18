@@ -10,11 +10,7 @@
 - version 3.2.8
 - MIT license
 
-3) thread-pool
-- Thread pool library
-- https://github.com/bshoshany/thread-pool
-- version 3.5.0
-- MIT license
+3) 
 
 4) d3dx12
 - Helper structures and functions for DirectX 12

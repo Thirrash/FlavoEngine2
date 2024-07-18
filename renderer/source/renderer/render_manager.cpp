@@ -25,7 +25,7 @@ namespace flavo::renderer
 		return m_Renderer->Destroy();
 	}
 
-	task::Future<ftl::result<>> RenderManager::UpdateRender()
+	parallel::Future<ftl::result<>> RenderManager::UpdateRender()
 	{
 		logger::Debug("UpdateRender");
 		co_return m_Renderer->UpdateRender();

@@ -24,12 +24,10 @@ add_subdirectory("${FLAVO_SDK_DIR}/concurrencpp")
 add_subdirectory("${FLAVO_SDK_DIR}/d3dx12")
 add_subdirectory("${FLAVO_SDK_DIR}/flecs")
 add_subdirectory("${FLAVO_SDK_DIR}/result")
-add_subdirectory("${FLAVO_SDK_DIR}/thread_pool")
 
 # Add kernel projects
 add_subdirectory("${FLAVO_KERNEL_SRC_DIR}/core")
 add_subdirectory("${FLAVO_KERNEL_SRC_DIR}/ecs")
-add_subdirectory("${FLAVO_KERNEL_SRC_DIR}/task")
 
 # Add renderer projects
 add_subdirectory("${FLAVO_RENDERER_SRC_DIR}/renderer")
@@ -51,4 +49,3 @@ target_link_libraries(Warthog PRIVATE Core)
 target_link_libraries(Warthog PRIVATE ECS)
 target_link_libraries(Warthog PRIVATE GameCore)
 target_link_libraries(Warthog PRIVATE Renderer)
-target_link_libraries(Warthog PRIVATE Task)

@@ -81,7 +81,7 @@ set(concurrencpp_headers
         include/concurrencpp/utils/bind.h
         include/concurrencpp/utils/slist.h)
 
-add_library(concurrencpp ${concurrencpp_headers} ${concurrencpp_sources})
+add_library(concurrencpp SHARED ${concurrencpp_headers} ${concurrencpp_sources})
 add_library(concurrencpp::concurrencpp ALIAS concurrencpp)
 
 target_include_directories(concurrencpp

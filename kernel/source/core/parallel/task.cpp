@@ -2,12 +2,12 @@
 
 #include "core/logger/assert.h"
 
-namespace flavo::task::internal
+namespace flavo::parallel::internal
 {
 	Runtime* g_Runtime = nullptr;
 }
 
-namespace flavo::task
+namespace flavo::parallel
 {
 	BackgroundExecutor& GetBackgroundExecutor()
 	{
